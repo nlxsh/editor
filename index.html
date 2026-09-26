@@ -6,7 +6,7 @@
 <title>EditX — Pro Photo Editor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Anton&family=Archivo+Black&family=Audiowide&family=Bebas+Neue&family=Bungee&family=Caveat:wght@700&family=Cinzel:wght@700&family=Dancing+Script:wght@700&family=Fredoka:wght@600&family=Great+Vibes&family=Kaushan+Script&family=Lobster&family=Monoton&family=Montserrat:wght@700;900&family=Orbitron:wght@700&family=Oswald:wght@500;700&family=Pacifico&family=Permanent+Marker&family=Playfair+Display:ital,wght@1,700&family=Poppins:wght@700&family=Press+Start+2P&family=Righteous&family=Satisfy&family=Yellowtail&family=Bangers&family=Titan+One&family=Alfa+Slab+One&family=Abril+Fatface&family=DM+Serif+Display&family=Bodoni+Moda:opsz,wght@6..96,700&family=Cormorant+Garamond:wght@700&family=Libre+Baskerville:wght@700&family=Merriweather:wght@900&family=Lora:wght@700&family=Fraunces:opsz,wght@9..144,900&family=Space+Grotesk:wght@700&family=Outfit:wght@800&family=Plus+Jakarta+Sans:wght@800&family=Lexend:wght@700&family=Syne:wght@800&family=Unbounded:wght@800&family=Raleway:wght@800&family=Nunito:wght@900&family=Quicksand:wght@700&family=DM+Sans:wght@800&family=Manrope:wght@800&family=Sora:wght@800&family=Work+Sans:wght@800&family=Rubik:wght@800&family=Shadows+Into+Light&family=Rock+Salt&family=Special+Elite&family=Parisienne&family=Sacramento&family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Anton&family=Archivo+Black&family=Audiowide&family=Bebas+Neue&family=Bungee&family=Caveat:wght@700&family=Cinzel:wght@700&family=Dancing+Script:wght@700&family=Fredoka:wght@600&family=Great+Vibes&family=Kaushan+Script&family=Lobster&family=Monoton&family=Montserrat:wght@700;900&family=Orbitron:wght@700&family=Oswald:wght@500;700&family=Pacifico&family=Permanent+Marker&family=Playfair+Display:ital,wght@1,700&family=Poppins:wght@700&family=Press+Start+2P&family=Righteous&family=Satisfy&family=Yellowtail&family=Bangers&family=Titan+One&family=Alfa+Slab+One&family=Abril+Fatface&family=DM+Serif+Display&family=Bodoni+Moda:opsz,wght@6..96,700&family=Cormorant+Garamond:wght@700&family=Libre+Baskerville:wght@700&family=Merriweather:wght@900&family=Lora:wght@700&family=Fraunces:opsz,wght@9..144,900&family=Space+Grotesk:wght@700&family=Outfit:wght@800&family=Plus+Jakarta+Sans:wght@800&family=Lexend:wght@700&family=Syne:wght@800&family=Unbounded:wght@800&family=Raleway:wght@800&family=Nunito:wght@900&family=Quicksand:wght@700&family=DM+Sans:wght@800&family=Manrope:wght@800&family=Sora:wght@800&family=Work+Sans:wght@800&family=Rubik:wght@800&family=Shadows+Into+Light&family=Rock+Salt&family=Special+Elite&family=Parisienne&family=Sacramento&family=VT323&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#08090c;--s1:#11131a;--s2:#181b24;--s3:#222733;--ol:#282e3a;--ol2:#3a4150;--tx:#eef1f7;--mu:#96a0b2;--sv:#c8d0dd;--svh:#f4f6fb;--ok:#5ee7a0;--warn:#ffb347}
 *,*::before,*::after{box-sizing:border-box}
@@ -16,34 +16,134 @@ body{font-family:Inter,system-ui,sans-serif;background:#08090c;color:var(--tx);f
 img,video,canvas{max-width:100%;display:block}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
 .app{display:flex;flex-direction:column;height:100dvh;overflow:hidden}
-.appbar{display:flex;align-items:center;justify-content:space-between;gap:.35rem;padding:.5rem .6rem;flex-wrap:nowrap;overflow:hidden;border-bottom:1px solid var(--ol);background:linear-gradient(180deg,rgba(26,30,38,.96),rgba(11,13,17,.98));backdrop-filter:blur(18px);z-index:10;flex:none}
+
+.app:not(.has-image) .menu-btn,
+.app:not(.has-image) .icon-btn[data-act="undo"],
+.app:not(.has-image) .icon-btn[data-act="redo"],
+.app:not(.has-image) .btn[data-act="export"],
+.app:not(.has-image) .sidebar,
+.app:not(.has-image) .sidebar-backdrop,
+.app:not(.has-image) .tool-panel,
+.app:not(.has-image) .stage-bar { display: none !important; }
+
+/* APPBAR */
+.appbar{display:flex;align-items:center;gap:.4rem;padding:.5rem .6rem;flex-wrap:nowrap;overflow:hidden;border-bottom:1px solid var(--ol);background:linear-gradient(180deg,rgba(26,30,38,.96),rgba(11,13,17,.98));backdrop-filter:blur(18px);z-index:30;flex:none}
+.menu-btn{flex:none}
 .brand{display:flex;align-items:center;gap:.4rem;min-width:0;flex-shrink:1}
 .brand-mark{display:grid;place-items:center;flex:none;width:2.2rem;height:2.2rem;border-radius:.65rem;background:linear-gradient(150deg,#fff,#d5dce8 35%,#8b95a6);color:#0a0c10;box-shadow:0 .25rem .9rem rgba(190,205,230,.22),inset 0 1px 0 rgba(255,255,255,.8)}
 .brand-mark svg{width:1.15rem;height:1.15rem}
 .brand-name{font-size:1.05rem;font-weight:800;letter-spacing:-.02em;background:linear-gradient(180deg,#fff,#b8c2d0 60%,#8b95a6);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
-.appbar-actions{display:flex;align-items:center;gap:.22rem;flex-shrink:0}
+.appbar-spacer{flex:1;min-width:.2rem}
+.appbar-actions{display:flex;align-items:center;gap:.3rem;flex-shrink:0}
 .icon-btn{display:grid;place-items:center;width:2.35rem;height:2.35rem;border:1px solid transparent;border-radius:999px;color:var(--mu);transition:.15s;flex:none}
 .icon-btn svg{width:1.1rem;height:1.1rem}
 .icon-btn:hover{background:var(--s2);color:var(--tx);border-color:var(--ol)}
 .icon-btn:active{transform:scale(.95)}
 .icon-btn:disabled{opacity:.3;pointer-events:none}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;min-height:2.35rem;padding:.4rem .85rem;border:1px solid transparent;border-radius:999px;background:var(--s2);color:var(--tx);font-weight:600;font-size:.82rem;white-space:nowrap;transition:.15s;flex:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;min-height:2.35rem;padding:.4rem .9rem;border:1px solid transparent;border-radius:999px;background:var(--s2);color:var(--tx);font-weight:600;font-size:.82rem;white-space:nowrap;transition:.15s;flex:none}
 .btn svg{width:.95rem;height:.95rem;flex:none}
 .btn:hover{background:var(--s3)}
 .btn:active{transform:scale(.97)}
-.btn.filled{background:linear-gradient(180deg,#fff,#e2e7f0 50%,#b9c3d2);color:#0f1218;box-shadow:0 .25rem .9rem rgba(190,205,230,.22);border-color:rgba(255,255,255,.4)}
+.btn.primary{background:linear-gradient(180deg,#fff,#e2e7f0 50%,#b9c3d2);color:#0f1218;box-shadow:0 .3rem 1rem rgba(190,205,230,.28);border-color:rgba(255,255,255,.4);font-weight:700}
+.btn.primary:hover{background:linear-gradient(180deg,#fff,#f0f3f8)}
 .btn.tonal{background:var(--s3);border-color:var(--ol2)}
 .btn.full{width:100%}
-.stage{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;background-color:#0b0d12;background-image:linear-gradient(45deg,#131620 25%,transparent 25%,transparent 75%,#131620 75%),linear-gradient(45deg,#131620 25%,transparent 25%,transparent 75%,#131620 75%);background-size:1.4rem 1.4rem;background-position:0 0,.7rem .7rem;touch-action:none;user-select:none}
+
+/* LAYOUT */
+.main{position:relative;flex:1;min-height:0;display:flex;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{display:flex;flex-direction:column;flex:none;background:linear-gradient(180deg,rgba(21,24,31,.99),rgba(11,13,17,1));border-right:1px solid var(--ol);backdrop-filter:blur(16px);z-index:20}
+.sidebar-inner{display:flex;flex-direction:column;width:270px;height:100%;overflow:hidden}
+.sidebar-head{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.7rem .85rem;border-bottom:1px solid var(--ol);flex:none}
+.sidebar-title{font-size:.72rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--mu)}
+.sidebar-head .icon-btn{width:2rem;height:2rem}
+.sidebar-head .icon-btn svg{width:1rem;height:1rem}
+.tools-list{display:flex;flex-direction:column;gap:.2rem;padding:.55rem;flex:1;overflow-y:auto;scrollbar-width:thin}
+.tools-list::-webkit-scrollbar{width:.4rem}
+.tools-list::-webkit-scrollbar-thumb{background:var(--s3);border-radius:999px}
+.tool-item{display:flex;align-items:center;gap:.65rem;padding:.7rem .85rem;border:1px solid transparent;border-radius:.7rem;color:var(--mu);font-weight:600;font-size:.86rem;text-align:left;transition:.15s;width:100%}
+.tool-item svg{width:1.1rem;height:1.1rem;flex:none}
+.tool-item:hover{background:var(--s2);color:var(--tx)}
+.tool-item.active{background:linear-gradient(90deg,rgba(46,53,70,.9),rgba(28,32,41,.6));color:var(--svh);border-color:var(--ol2);box-shadow:inset 3px 0 0 var(--sv)}
+.tool-item.active svg{color:var(--svh)}
+.sidebar-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.6);opacity:0;pointer-events:none;transition:opacity .28s ease;z-index:15}
+
+@media (max-width: 63.99rem){
+  .sidebar{position:absolute;top:0;left:0;bottom:0;width:min(82vw, 290px);transform:translateX(-105%);transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:1.2rem 0 2.5rem rgba(0,0,0,.65);border-right:1px solid var(--ol2)}
+  .sidebar-inner{width:100%}
+  .main.sidebar-open .sidebar{transform:translateX(0)}
+  .main.sidebar-open .sidebar-backdrop{opacity:1;pointer-events:auto}
+}
+@media (min-width: 64rem){
+  .sidebar{width:270px;margin-left:0;transition:margin-left .3s cubic-bezier(.4,0,.2,1)}
+  .main:not(.sidebar-open) .sidebar{margin-left:-270px}
+  .sidebar-backdrop{display:none!important}
+}
+
+/* CONTENT */
+.content{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+
+/* STAGE */
+.stage{position:relative;flex:1;min-width:0;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;background-color:#0b0d12;background-image:linear-gradient(45deg,#131620 25%,transparent 25%,transparent 75%,#131620 75%),linear-gradient(45deg,#131620 25%,transparent 25%,transparent 75%,#131620 75%);background-size:1.4rem 1.4rem;background-position:0 0,.7rem .7rem;touch-action:none;user-select:none}
 .viewport{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
 .canvas-inner{position:relative;transform-origin:center center;will-change:transform}
 #canvas{display:block;border-radius:.4rem;box-shadow:0 1rem 2.5rem rgba(0,0,0,.7);touch-action:none;user-select:none;cursor:crosshair;background:transparent}
-.empty{position:absolute;inset:0;display:grid;place-items:center;gap:.9rem;text-align:center;padding:1.5rem;pointer-events:none}
+
+/* TOOL PANEL */
+.tool-panel{
+  display:flex;flex-direction:column;flex:none;
+  max-height:56dvh;
+  background:linear-gradient(180deg,rgba(21,24,31,.98),rgba(11,13,17,.99));
+  border-top:1px solid var(--ol);
+  backdrop-filter:blur(16px);
+  transition: max-height .28s cubic-bezier(.4,0,.2,1),
+              transform .22s cubic-bezier(.4,0,.2,1),
+              opacity .22s ease;
+  overflow:hidden;
+  z-index:10;
+}
+.tool-panel.collapsed{max-height:0;border-top:0}
+.tool-panel.peeking{
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+}
+.tool-panel.minimized .panel-body{ display: none; }
+.tool-panel.minimized .tool-panel-head{ border-bottom: 0; }
+.tool-panel-head{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.55rem .85rem;border-bottom:1px solid var(--ol);flex:none}
+.tool-panel-head h3{margin:0;font-size:.95rem;font-weight:800;display:flex;align-items:center;gap:.5rem}
+.tool-panel-head h3 svg{width:1.05rem;height:1.05rem;color:var(--sv)}
+.tool-panel-head .icon-btn{width:2rem;height:2rem}
+.tool-panel-head .icon-btn svg{width:1rem;height:1rem}
+.panel-body{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:1rem 1rem 1.4rem;display:flex;flex-direction:column;gap:1rem;min-height:0;scrollbar-width:thin;max-height:calc(56dvh - 3.2rem)}
+.panel-body::-webkit-scrollbar{width:.4rem}
+.panel-body::-webkit-scrollbar-thumb{background:var(--s3);border-radius:999px}
+
+/* EMPTY STATE */
+.empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 1.5rem;pointer-events:none;overflow:hidden;z-index:2}
 .empty > *{pointer-events:auto}
-.empty-icon{display:grid;place-items:center;width:4.6rem;height:4.6rem;border-radius:1.3rem;background:linear-gradient(150deg,#2a303c,#15181e);color:var(--sv);box-shadow:inset 0 0 0 1px var(--ol2),0 .8rem 2rem rgba(0,0,0,.5)}
-.empty-icon svg{width:2rem;height:2rem}
-.empty h3{margin:0;font-size:1.3rem;font-weight:800}
-.empty p{margin:0;color:var(--mu);font-size:.88rem;line-height:1.5;max-width:26ch}
+.empty::before{content:"";position:absolute;top:50%;left:50%;width:min(80vw,600px);height:min(80vw,600px);transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(123,196,255,.18) 0%,rgba(123,196,255,.06) 30%,transparent 70%);pointer-events:none;animation:pulse 4s ease-in-out infinite}
+.empty::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 30%,rgba(180,140,255,.08),transparent 40%),radial-gradient(circle at 80% 70%,rgba(94,231,160,.08),transparent 40%);pointer-events:none}
+@keyframes pulse{0%,100%{opacity:.7;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes shine{0%{background-position:-200% center}100%{background-position:200% center}}
+.empty-badge{position:relative;display:grid;place-items:center;width:5.4rem;height:5.4rem;border-radius:1.6rem;background:linear-gradient(150deg,#2a303c,#15181e);box-shadow:inset 0 0 0 1px var(--ol2),0 1.4rem 3rem rgba(0,0,0,.6),0 0 4rem rgba(123,196,255,.15);color:var(--sv);animation:floaty 4s ease-in-out infinite;margin-bottom:.4rem}
+.empty-badge::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:linear-gradient(140deg,rgba(255,255,255,.35),transparent 40%,transparent 60%,rgba(123,196,255,.35));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.empty-badge svg{width:2.4rem;height:2.4rem}
+.empty-title{margin:1rem 0 .55rem;font-size:clamp(1.6rem,4.5vw,2.2rem);font-weight:900;letter-spacing:-.03em;line-height:1.05;background:linear-gradient(180deg,#fff,#c8d0dd 60%,#8b95a6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.empty-title .accent{background:linear-gradient(135deg,#7bc4ff,#a78bfa 50%,#5ee7a0);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% auto;animation:shine 5s linear infinite}
+.empty-sub{margin:0 0 1.6rem;color:var(--mu);font-size:.92rem;line-height:1.55;max-width:32ch}
+.empty-cta{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:.55rem;min-height:3.1rem;padding:.85rem 1.6rem;border-radius:999px;background:linear-gradient(180deg,#fff,#e2e7f0 50%,#b9c3d2);color:#0f1218;font-weight:800;font-size:.92rem;letter-spacing:.01em;box-shadow:0 .5rem 1.5rem rgba(190,205,230,.28),0 0 3rem rgba(123,196,255,.2),inset 0 1px 0 rgba(255,255,255,.9);transition:.2s;overflow:hidden}
+.empty-cta::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.9) 50%,transparent 70%);transform:translateX(-120%);transition:transform .7s}
+.empty-cta:hover{transform:translateY(-1px);box-shadow:0 .6rem 1.8rem rgba(190,205,230,.36),0 0 4rem rgba(123,196,255,.28),inset 0 1px 0 rgba(255,255,255,.9)}
+.empty-cta:hover::before{transform:translateX(120%)}
+.empty-cta:active{transform:scale(.97)}
+.empty-cta svg{width:1.15rem;height:1.15rem}
+.empty-hints{display:flex;gap:.5rem;margin-top:1.4rem;flex-wrap:wrap;justify-content:center}
+.hint-chip{padding:.35rem .75rem;border-radius:999px;background:rgba(34,39,51,.7);border:1px solid var(--ol);font-size:.68rem;font-weight:700;letter-spacing:.14em;color:var(--mu);text-transform:uppercase}
+
+/* STAGE BAR */
 .stage-bar{position:absolute;top:.6rem;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:.15rem;padding:.3rem;border-radius:999px;background:rgba(15,17,22,.94);border:1px solid var(--ol);backdrop-filter:blur(12px);z-index:5;max-width:calc(100% - 1.2rem)}
 .zoom-btn{display:grid;place-items:center;width:2rem;height:2rem;border-radius:999px;color:var(--mu);transition:.15s;flex:none}
 .zoom-btn:hover{background:var(--s2);color:var(--tx)}
@@ -55,28 +155,8 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .stage-bar .brush-indicator:hover{background:var(--s2);color:var(--tx)}
 .stage-bar .brush-indicator.active{color:#0a1a10;background:linear-gradient(180deg,#5ee7a0,#2ea870);box-shadow:0 0 12px rgba(94,231,160,.55)}
 .stage-bar .brush-indicator.active::after{content:"";position:absolute;top:-2px;right:-2px;width:.5rem;height:.5rem;border-radius:50%;background:#5ee7a0;box-shadow:0 0 6px #5ee7a0}
-.brush-toggle{display:inline-flex;align-items:center;gap:.4rem;min-height:2.35rem;padding:.4rem .9rem;border-radius:999px;background:var(--s2);color:var(--mu);font-weight:700;font-size:.78rem;border:1px solid var(--ol);transition:.15s}
-.brush-toggle svg{width:1.05rem;height:1.05rem}
-.brush-toggle:hover{background:var(--s3);color:var(--tx)}
-.brush-toggle.active{background:linear-gradient(180deg,#5ee7a0,#2ea870);color:#0a1a10;border-color:transparent;box-shadow:0 0 0 2px rgba(94,231,160,.25)}
-.panel{display:flex;flex-direction:column;flex:none;max-height:56dvh;background:linear-gradient(180deg,rgba(21,24,31,.96),rgba(11,13,17,.99));border-top:1px solid var(--ol);backdrop-filter:blur(16px);transition:max-height .25s cubic-bezier(.4,0,.2,1)}
-.panel.collapsed{max-height:0;overflow:hidden;border-top:0}
-.tabs{display:flex;gap:.2rem;overflow-x:auto;overflow-y:hidden;padding:.5rem .6rem;border-bottom:1px solid var(--ol);scrollbar-width:none;background:rgba(8,9,12,.5);flex:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab{display:flex;align-items:center;gap:.35rem;min-height:2.5rem;padding:.5rem .9rem;border:1px solid transparent;border-radius:999px;color:var(--mu);font-weight:600;font-size:.8rem;white-space:nowrap;flex:none;transition:.15s}
-.tab svg{width:1.05rem;height:1.05rem}
-.tab:hover{background:var(--s2);color:var(--tx)}
-.tab.active{background:linear-gradient(180deg,#2e3546,#1c2029);color:var(--svh);border-color:var(--ol2)}
-.panel-body{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:1rem 1rem 1.4rem;display:flex;flex-direction:column;gap:1rem;min-height:0;scrollbar-width:thin}
-.panel-body::-webkit-scrollbar{width:.4rem}
-.panel-body::-webkit-scrollbar-thumb{background:var(--s3);border-radius:999px}
-@media (min-width:64rem){
-  .app{flex-direction:row;flex-wrap:wrap}
-  .appbar{flex:0 0 100%;order:0}
-  .stage{order:1;flex:1}
-  .panel{order:2;flex:0 0 26rem;max-height:none;height:calc(100dvh - 3.35rem);border-top:0;border-left:1px solid var(--ol);transition:none}
-  .panel.collapsed{max-height:none;flex:0 0 0;padding:0;border-left:0;overflow:hidden}
-}
+
+/* PANEL CONTENT */
 .head{display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap}
 .head h3{margin:0;font-size:1.05rem;font-weight:800}
 .head-sub{font-size:.76rem;color:var(--mu);font-weight:500}
@@ -166,6 +246,10 @@ input:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px soli
 .brush-mode.active{background:linear-gradient(180deg,#2e3546,#1c2029);color:var(--svh);border-color:var(--sv);box-shadow:0 0 0 1px var(--sv) inset}
 .brush-preview{width:100%;height:2.6rem;border-radius:.55rem;background:var(--s3);display:grid;place-items:center;overflow:hidden}
 .brush-dot{border-radius:50%;box-shadow:0 0 1.2rem rgba(200,215,235,.4)}
+.brush-toggle{display:inline-flex;align-items:center;gap:.4rem;min-height:2.35rem;padding:.4rem .9rem;border-radius:999px;background:var(--s2);color:var(--mu);font-weight:700;font-size:.78rem;border:1px solid var(--ol);transition:.15s}
+.brush-toggle svg{width:1.05rem;height:1.05rem}
+.brush-toggle:hover{background:var(--s3);color:var(--tx)}
+.brush-toggle.active{background:linear-gradient(180deg,#5ee7a0,#2ea870);color:#0a1a10;border-color:transparent;box-shadow:0 0 0 2px rgba(94,231,160,.25)}
 .switch{display:flex;align-items:center;gap:.6rem;font-size:.86rem;color:var(--mu);font-weight:500;cursor:pointer;min-height:2.6rem}
 .switch input{appearance:none;-webkit-appearance:none;position:relative;flex:none;width:2.5rem;height:1.4rem;border-radius:999px;background:var(--s3);cursor:pointer;transition:background .2s;margin:0}
 .switch input::after{content:"";position:absolute;top:.19rem;left:.19rem;width:1rem;height:1rem;border-radius:50%;background:var(--mu);transition:.2s}
@@ -180,60 +264,109 @@ input:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px soli
 .curve-ch.r.active{background:#ff6b6b;color:#fff}
 .curve-ch.g.active{background:#5ee7a0;color:#000}
 .curve-ch.b.active{background:#54d6ff;color:#000}
+
 @media (max-width:30rem){
   .brand-name{font-size:.98rem}
   .btn{padding:.4rem .7rem;font-size:.78rem}
-  .btn.tonal span,.btn.filled span{display:none}
-  .tab{padding:.45rem .75rem;font-size:.76rem}
+  .btn.tonal span,.btn.primary span{display:none}
+  .tool-item{padding:.6rem .75rem;font-size:.82rem}
+}
+@media (max-width:24rem){
+  .brand-name{display:none}
 }
 </style>
 </head>
 <body>
 
-<div class="app">
+<div class="app" id="app">
   <header class="appbar">
+    <button class="icon-btn menu-btn" id="panelToggle" aria-label="Toggle menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="menuIcon">
+        <path d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
     <div class="brand">
       <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20L20 4"/><path d="M14 4h6v6"/></svg></span>
       <span class="brand-name">EditX</span>
     </div>
+    <div class="appbar-spacer"></div>
     <div class="appbar-actions">
+      <button class="btn primary" data-act="open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg><span>Open</span></button>
       <button class="icon-btn" data-act="undo" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 010 12h-3"/></svg></button>
       <button class="icon-btn" data-act="redo" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 000 12h3"/></svg></button>
-      <button class="icon-btn" data-act="togglePanel" disabled id="panelToggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
-      <button class="btn tonal" data-act="open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg><span>Open</span></button>
-      <button class="btn filled" data-act="export" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M4 20h16"/></svg><span>Export</span></button>
+      <button class="btn tonal" data-act="export" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M4 20h16"/></svg><span>Export</span></button>
     </div>
   </header>
 
-  <section class="stage" id="stage">
-    <div class="viewport" id="viewport">
-      <div class="canvas-inner" id="canvasInner">
-        <canvas id="canvas" hidden></canvas>
+  <div class="main" id="main">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        <div class="sidebar-head">
+          <span class="sidebar-title">Tools</span>
+          <button class="icon-btn" id="sidebarClose" aria-label="Close menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"/></svg>
+          </button>
+        </div>
+        <nav class="tools-list" id="tabs"></nav>
+      </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <div class="content">
+      <section class="stage" id="stage">
+        <div class="viewport" id="viewport">
+          <div class="canvas-inner" id="canvasInner">
+            <canvas id="canvas" hidden></canvas>
+          </div>
+        </div>
+        <div class="stage-bar" id="stageBar" hidden>
+          <button class="zoom-btn" data-zoom="out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
+          <span class="zoom-display" id="zoomDisplay">100%</span>
+          <button class="zoom-btn" data-zoom="in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+          <button class="zoom-btn" data-zoom="reset"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 108.5-8.5A8.5 8.5 0 006 6"/><path d="M3.5 3v5h5"/></svg></button>
+          <button class="zoom-btn" id="zoomLockBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 017-2.6"/></svg></button>
+          <button class="zoom-btn" data-zoom="fit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8V3h5M21 8V3h-5M3 16v5h5M21 16v5h-5"/></svg></button>
+          <button class="brush-indicator" id="brushIndicator" title="Brush Tool">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c2-2 6-2 8-4l6-6-2-2-6 6c-2 2-2 6-4 8l-2-2z"/></svg>
+          </button>
+        </div>
+        <div class="empty" id="empty">
+          <div class="empty-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.6" cy="8.6" r="1.7"/><path d="M21 15.5l-4.6-4.6L6 21"/></svg>
+          </div>
+          <h3 class="empty-title">Create <span class="accent">your edit</span></h3>
+          <p class="empty-sub">Open an image to begin. Additional images stack as layers on top.</p>
+          <button class="empty-cta" data-act="open">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+            <span>Choose Image</span>
+          </button>
+          <div class="empty-hints">
+            <span class="hint-chip">PNG</span>
+            <span class="hint-chip">JPG</span>
+            <span class="hint-chip">WEBP</span>
+            <span class="hint-chip">SVG</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="tool-panel collapsed" id="toolPanel">
+        <div class="tool-panel-head">
+          <h3 id="toolPanelTitle"><span id="toolPanelIcon"></span><span id="toolPanelName">Adjust</span></h3>
+          <div style="display:flex;gap:.25rem">
+            <button class="icon-btn" id="toolPanelMin" aria-label="Minimize panel">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="minIcon">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+            <button class="icon-btn" id="toolPanelClose" aria-label="Close panel">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="panel-body" id="panelBody"></div>
       </div>
     </div>
-    <div class="stage-bar" id="stageBar" hidden>
-      <button class="zoom-btn" data-zoom="out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
-      <span class="zoom-display" id="zoomDisplay">100%</span>
-      <button class="zoom-btn" data-zoom="in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
-      <button class="zoom-btn" data-zoom="reset"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 108.5-8.5A8.5 8.5 0 006 6"/><path d="M3.5 3v5h5"/></svg></button>
-      <button class="zoom-btn" id="zoomLockBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 017-2.6"/></svg></button>
-      <button class="zoom-btn" data-zoom="fit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8V3h5M21 8V3h-5M3 16v5h5M21 16v5h-5"/></svg></button>
-      <button class="brush-indicator" id="brushIndicator" title="Brush Tool">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c2-2 6-2 8-4l6-6-2-2-6 6c-2 2-2 6-4 8l-2-2z"/></svg>
-      </button>
-    </div>
-    <div class="empty" id="empty">
-      <div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.6" cy="8.6" r="1.7"/><path d="M21 15.5l-4.6-4.6L6 21"/></svg></div>
-      <h3>Create your edit</h3>
-      <p>Open an image to begin. Additional images stack as layers.</p>
-      <button class="btn filled" data-act="open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>Choose Image</button>
-    </div>
-  </section>
-
-  <aside class="panel collapsed" id="panel">
-    <nav class="tabs" id="tabs"></nav>
-    <div class="panel-body" id="panelBody"></div>
-  </aside>
+  </div>
 </div>
 
 <input type="file" id="fileInput" accept="image/*" hidden>
@@ -498,8 +631,8 @@ const TABS = [
   ['graphics','Graphics','graphics'],
   ['brush','Brush','brush'],
   ['images','Images','images'],
-  ['bg','BG','bg'],
-  ['crop','Crop','crop']
+  ['bg','Background','bg'],
+  ['crop','Crop & Transform','crop']
 ];
 
 const canvas = document.getElementById('canvas');
@@ -511,13 +644,24 @@ const zoomDisplay = document.getElementById('zoomDisplay');
 const zoomLockBtn = document.getElementById('zoomLockBtn');
 const stageBar = document.getElementById('stageBar');
 const emptyEl = document.getElementById('empty');
-const panelEl = document.getElementById('panel');
+const appEl = document.getElementById('app');
+const mainEl = document.getElementById('main');
+const sidebarEl = document.getElementById('sidebar');
 const tabsEl = document.getElementById('tabs');
+const toolPanelEl = document.getElementById('toolPanel');
+const toolPanelName = document.getElementById('toolPanelName');
+const toolPanelIcon = document.getElementById('toolPanelIcon');
+const toolPanelClose = document.getElementById('toolPanelClose');
+const toolPanelMin = document.getElementById('toolPanelMin');
+const minIcon = document.getElementById('minIcon');
 const panelBodyEl = document.getElementById('panelBody');
 const fileInput = document.getElementById('fileInput');
 const undoBtn = document.querySelector('[data-act="undo"]');
 const redoBtn = document.querySelector('[data-act="redo"]');
 const panelToggle = document.getElementById('panelToggle');
+const menuIcon = document.getElementById('menuIcon');
+const sidebarCloseBtn = document.getElementById('sidebarClose');
+const sidebarBackdrop = document.getElementById('sidebarBackdrop');
 const exportBtn = document.querySelector('[data-act="export"]');
 const brushIndicator = document.getElementById('brushIndicator');
 
@@ -529,14 +673,8 @@ function invalidateBase(){ baseDirty = true; requestRender(); }
 const DEFAULT_ADJ = { exposure:0, brightness:100, contrast:100, highlights:0, shadows:0, temperature:0, tint:0, vibrance:0, saturation:100, hue:0, sharpen:0, clarity:0, noiseRed:0, blur:0, vignette:0, grain:0, fade:0 };
 
 function defaultCurves(){
-  return {
-    rgb: [{x:0,y:0},{x:1,y:1}],
-    r:   [{x:0,y:0},{x:1,y:1}],
-    g:   [{x:0,y:0},{x:1,y:1}],
-    b:   [{x:0,y:0},{x:1,y:1}]
-  };
+  return { rgb:[{x:0,y:0},{x:1,y:1}], r:[{x:0,y:0},{x:1,y:1}], g:[{x:0,y:0},{x:1,y:1}], b:[{x:0,y:0},{x:1,y:1}] };
 }
-
 function cloneCanvas(c){
   if(!c) return null;
   const n = document.createElement('canvas');
@@ -569,12 +707,13 @@ const state = {
   bg: { type:'none', color:'#111318', g:['#2b3040','#0e1015'] },
   layers: [], selected: -1, tab: 'presets',
   crop: { x:0, y:0, w:0, h:0, active:false, aspect:'free' },
-  history: [], future: [], panelVisible: false,
+  history: [], future: [],
   view: { scale:1, x:0, y:0, locked:false, spacePressed:false },
-  brush: { active:false, mode:'paint', color:'#eef2f8', size:60, opacity:1 },
+  brush: { active:false, mode:'paint', color:'#eef2f8', size:60, opacity:1, pointer:null, currentLayerId:null },
   curves: Object.assign({ active:'rgb' }, defaultCurves()),
   baseVisible: true,
-  baseLocked: false
+  baseLocked: false,
+  panelOpen: false
 };
 let uid = 1;
 function nextId(){ return 'L' + (uid++); }
@@ -590,8 +729,59 @@ function degToRad(d){ return d*Math.PI/180; }
 function canvasScale(){ const r = canvas.getBoundingClientRect(); return (r.width / canvas.width) || 1; }
 function cssToCanvasPx(p){ return p / canvasScale(); }
 
+function isSidebarOpen(){ return mainEl.classList.contains('sidebar-open'); }
+function openSidebar(){ mainEl.classList.add('sidebar-open'); updateMenuIcon(); }
+function closeSidebar(){ mainEl.classList.remove('sidebar-open'); updateMenuIcon(); }
+function toggleSidebar(){ if(isSidebarOpen()) closeSidebar(); else openSidebar(); }
+function updateMenuIcon(){
+  const open = isSidebarOpen();
+  menuIcon.innerHTML = open
+    ? '<path d="M6 6l12 12M6 18L18 6"/>'
+    : '<path d="M4 6h16M4 12h16M4 18h16"/>';
+}
+function openToolPanel(tab){
+  const info = TABS.find(t => t[0] === tab);
+  if(!info) return;
+  state.tab = tab;
+  state.panelOpen = true;
+  toolPanelEl.classList.remove('collapsed', 'peeking', 'minimized');
+  if(minIcon) minIcon.innerHTML = '<path d="M6 9l6 6 6-6"/>';
+  toolPanelName.textContent = info[1];
+  toolPanelIcon.innerHTML = svg(info[2]);
+  if(state.tab === 'crop' && state.image && !state.crop.active){
+    state.crop.active = true;
+    const pad = 0.1;
+    state.crop.x = canvas.width * pad;
+    state.crop.y = canvas.height * pad;
+    state.crop.w = canvas.width * (1 - pad * 2);
+    state.crop.h = canvas.height * (1 - pad * 2);
+  }
+  renderTabs(); renderPanel(); requestRender();
+}
+function closeToolPanel(){
+  state.panelOpen = false;
+  toolPanelEl.classList.add('collapsed');
+  toolPanelEl.classList.remove('peeking', 'minimized');
+  if(minIcon) minIcon.innerHTML = '<path d="M6 9l6 6 6-6"/>';
+  state.tab = '';
+  renderTabs();
+  requestRender();
+}
+function toggleMinimizePanel(){
+  const isMin = toolPanelEl.classList.toggle('minimized');
+  minIcon.innerHTML = isMin
+    ? '<path d="M6 15l6-6 6 6"/>'
+    : '<path d="M6 9l6 6 6-6"/>';
+  requestRender();
+}
+
 function syncBrushUI(){
   if(brushIndicator) brushIndicator.classList.toggle('active', state.brush.active);
+  if(canvas) canvas.style.cursor = state.brush.active ? 'none' : 'crosshair';
+}
+function updateAppState(){
+  if(state.image) appEl.classList.add('has-image');
+  else appEl.classList.remove('has-image');
 }
 
 function canvasSize(){
@@ -604,7 +794,6 @@ function canvasSize(){
   }
   return { w: img.width, h: img.height };
 }
-
 function imageLayerDims(o, W, H){
   const img = o.img;
   if(!img) return { dw:0, dh:0 };
@@ -622,7 +811,6 @@ function imageLayerDims(o, W, H){
 function imageLayerCenter(o, W, H){
   return { cx: (o.x === undefined ? 0.5 : o.x) * W, cy: (o.y === undefined ? 0.5 : o.y) * H };
 }
-
 function applyView(){
   canvasInner.style.transform = 'translate(' + state.view.x + 'px,' + state.view.y + 'px) scale(' + state.view.scale + ')';
   zoomDisplay.textContent = Math.round(state.view.scale * 100) + '%';
@@ -702,7 +890,9 @@ function restoreSnapshot(snap){
   uid = snap.uid || uid;
   state.selected = -1;
   state.crop.active = false;
+  state.brush.currentLayerId = null;
   baseDirty = true;
+  updateAppState();
   syncBrushUI();
   renderPanel(); render();
 }
@@ -956,46 +1146,19 @@ function drawImageLayer(c, o, W, H){
   c.restore();
 }
 
-function drawBrushBadge(c, W, H){
-  const badgeSize = Math.max(36, Math.min(W, H) * 0.075);
-  const pad = badgeSize * 0.32;
-  const x = pad, y = pad;
-  const r = badgeSize * 0.28;
-
+function drawBrushCursor(c, W, H){
+  if(!state.brush.active || !state.brush.pointer) return;
+  const p = state.brush.pointer;
+  const r = Math.max(3, (state.brush.size / 500) * Math.min(W, H) / 2);
   c.save();
-  c.fillStyle = 'rgba(94,231,160,0.96)';
-  c.beginPath();
-  if(typeof c.roundRect === 'function'){
-    c.roundRect(x, y, badgeSize, badgeSize, r);
-  } else {
-    c.moveTo(x + r, y);
-    c.lineTo(x + badgeSize - r, y);
-    c.quadraticCurveTo(x + badgeSize, y, x + badgeSize, y + r);
-    c.lineTo(x + badgeSize, y + badgeSize - r);
-    c.quadraticCurveTo(x + badgeSize, y + badgeSize, x + badgeSize - r, y + badgeSize);
-    c.lineTo(x + r, y + badgeSize);
-    c.quadraticCurveTo(x, y + badgeSize, x, y + badgeSize - r);
-    c.lineTo(x, y + r);
-    c.quadraticCurveTo(x, y, x + r, y);
-    c.closePath();
-  }
-  c.fill();
-
-  c.shadowColor = 'rgba(94,231,160,0.65)';
-  c.shadowBlur = badgeSize * 0.5;
-  c.beginPath();
-  c.arc(x + badgeSize/2, y + badgeSize/2, badgeSize/2, 0, Math.PI*2);
-  c.fill();
-  c.shadowBlur = 0;
-  c.restore();
-
-  const is = (badgeSize * 0.68) / 24;
-  c.save();
-  c.translate(x + badgeSize/2 - 12*is, y + badgeSize/2 - 12*is);
-  c.scale(is, is);
-  const p = new Path2D('M4 20c2-2 6-2 8-4l6-6-2-2-6 6c-2 2-2 6-4 8l-2-2z');
-  c.fillStyle = '#0a1a10';
-  c.fill(p);
+  c.strokeStyle = 'rgba(0,0,0,0.85)'; c.lineWidth = 3;
+  c.beginPath(); c.arc(p.x, p.y, r, 0, Math.PI*2); c.stroke();
+  c.strokeStyle = 'rgba(255,255,255,0.95)'; c.lineWidth = 1.5;
+  c.beginPath(); c.arc(p.x, p.y, r, 0, Math.PI*2); c.stroke();
+  c.strokeStyle = 'rgba(94,231,160,0.95)'; c.lineWidth = 1.5;
+  c.beginPath(); c.arc(p.x, p.y, r + 2, 0, Math.PI*2); c.stroke();
+  c.fillStyle = 'rgba(94,231,160,0.6)';
+  c.beginPath(); c.arc(p.x, p.y, 1.8, 0, Math.PI*2); c.fill();
   c.restore();
 }
 
@@ -1025,11 +1188,11 @@ function render(exportMode){
   if(!exportMode){
     if(state.tab === 'crop' && state.crop.active){
       drawCropUI(ctx, W, H);
-    } else {
+    } else if(!state.brush.active){
       drawSelectionUI(ctx, W, H);
     }
     if(state.brush.active){
-      drawBrushBadge(ctx, W, H);
+      drawBrushCursor(ctx, W, H);
     }
   }
 }
@@ -1229,12 +1392,7 @@ function hitCorner(p, o, W, H){
   const ly = dx * Math.sin(a) + dy * Math.cos(a);
   const hw = b.w/2 + pad, hh = b.h/2 + pad;
   const hs = cssToCanvasPx(24);
-  const corners = [
-    ['nw', -hw, -hh],
-    ['ne', hw, -hh],
-    ['sw', -hw, hh],
-    ['se', hw, hh]
-  ];
+  const corners = [['nw',-hw,-hh],['ne',hw,-hh],['sw',-hw,hh],['se',hw,hh]];
   for(let i = 0; i < corners.length; i++){
     if(Math.hypot(lx - corners[i][1], ly - corners[i][2]) < hs) return corners[i][0];
   }
@@ -1323,10 +1481,7 @@ function drawCropUI(c, W, H){
   }
 
   const hs = Math.max(14, W / 50);
-  const corners = [
-    [cr.x, cr.y], [cr.x + cr.w, cr.y],
-    [cr.x, cr.y + cr.h], [cr.x + cr.w, cr.y + cr.h]
-  ];
+  const corners = [[cr.x,cr.y],[cr.x+cr.w,cr.y],[cr.x,cr.y+cr.h],[cr.x+cr.w,cr.y+cr.h]];
   c.fillStyle = '#f2f5fa';
   c.strokeStyle = 'rgba(20,22,28,0.7)';
   c.lineWidth = Math.max(1, W / 900);
@@ -1342,7 +1497,7 @@ function renderTabs(){
   let html = '';
   for(let i = 0; i < TABS.length; i++){
     const t = TABS[i];
-    html += '<button class="tab' + (state.tab === t[0] ? ' active' : '') + '" data-tab="' + t[0] + '">' + svg(t[2]) + '<span>' + t[1] + '</span></button>';
+    html += '<button class="tool-item' + (state.tab === t[0] && state.panelOpen ? ' active' : '') + '" data-tab="' + t[0] + '">' + svg(t[2]) + '<span>' + t[1] + '</span></button>';
   }
   tabsEl.innerHTML = html;
 }
@@ -1353,6 +1508,7 @@ function slider(id, label, min, max, step, value, suffix){
     '<input type="range" data-adj="' + id + '" data-suffix="' + (suffix||'') + '" min="' + min + '" max="' + max + '" step="' + step + '" value="' + value + '" style="--p:' + pct + '%"></div>';
 }
 function renderPanel(){
+  if(!state.panelOpen){ panelBodyEl.innerHTML = ''; return; }
   let html = '';
   switch(state.tab){
     case 'presets':  html = panelPresets();  break;
@@ -1401,15 +1557,14 @@ function panelPresets(){
       '<span>' + p[1] + '</span></button>';
   }
   const target = currentAdjustTarget();
-  return '<div class="head"><h3>Presets</h3><button class="chip" data-act="resetPreset">Reset</button></div>' +
-    '<div class="target-badge">' + svg('target') + 'Apply to: ' + escapeHtml(target.name) + '</div>' +
+  return '<div class="target-badge">' + svg('target') + 'Apply to: ' + escapeHtml(target.name) + '</div>' +
     '<p class="hint">' + PRESETS.length + ' color grades. Applied to the selected layer.</p>' +
-    '<div class="presets">' + grid + '</div>';
+    '<div class="presets">' + grid + '</div>' +
+    '<button class="btn tonal full" data-act="resetPreset">Reset</button>';
 }
 function panelLayers(){
   if(!state.image){
-    return '<div class="head"><h3>Layers</h3></div>' +
-      '<p class="hint">Open an image first. Added images will appear here as layers.</p>';
+    return '<p class="hint">Open an image first.</p>';
   }
   let rows = '';
   for(let i = state.layers.length - 1; i >= 0; i--){
@@ -1449,8 +1604,7 @@ function panelLayers(){
     '</div>' +
   '</div>';
   const total = state.layers.length + 1;
-  return '<div class="head"><h3>Layers</h3><span class="head-sub">' + total + ' layer' + (total === 1 ? '' : 's') + '</span></div>' +
-    '<p class="hint">Tap a layer to select. Tap ⚙️ to adjust. Corner handles on canvas resize the selected layer.</p>' +
+  return '<p class="hint">' + total + ' layer' + (total === 1 ? '' : 's') + '. Tap to select.</p>' +
     '<div class="layer-list">' + rows + '</div>' +
     '<hr class="divider">' +
     '<button class="btn tonal full" data-act="flatten">' + svg('check') + 'Merge All Visible</button>';
@@ -1458,9 +1612,7 @@ function panelLayers(){
 function panelAdjust(){
   const target = currentAdjustTarget();
   const a = target.kind === 'layer' ? (target.obj.adj || DEFAULT_ADJ) : state.adj;
-  return '<div class="head"><h3>Adjust</h3>' +
-    '<button class="chip" data-act="resetAdjust">Reset</button></div>' +
-  '<div class="target-badge">' + svg('target') + 'Adjusting: ' + escapeHtml(target.name) + '</div>' +
+  return '<div class="target-badge">' + svg('target') + 'Adjusting: ' + escapeHtml(target.name) + '</div>' +
   (target.kind === 'layer'
     ? '<p class="hint">Sliders affect only this layer.</p>'
     : '<p class="hint">Sliders affect the base image. Select an image layer to adjust it separately.</p>') +
@@ -1484,7 +1636,8 @@ function panelAdjust(){
   slider('blur','Blur',0,20,0.5,a.blur,'px') +
   slider('vignette','Vignette',0,100,1,a.vignette,'%') +
   slider('grain','Grain',0,100,1,a.grain,'%') +
-  slider('fade','Fade',0,100,1,a.fade,'%');
+  slider('fade','Fade',0,100,1,a.fade,'%') +
+  '<button class="btn tonal full" data-act="resetAdjust">Reset</button>';
 }
 function panelCurves(){
   const cd = currentCurves();
@@ -1503,9 +1656,7 @@ function panelCurves(){
     circles += '<circle data-cidx="' + i + '" cx="' + (pts[i].x*100) + '" cy="' + (100 - pts[i].y*100) + '" r="3.2" fill="#fff" stroke="#12151b" stroke-width="0.8" style="cursor:move"/>';
   }
   const target = currentAdjustTarget();
-  return '<div class="head"><h3>Curves</h3>' +
-    '<button class="chip" data-act="resetCurves">Reset</button></div>' +
-  '<div class="target-badge">' + svg('target') + 'Target: ' + escapeHtml(target.name) + '</div>' +
+  return '<div class="target-badge">' + svg('target') + 'Target: ' + escapeHtml(target.name) + '</div>' +
   '<p class="hint">Drag points. Tap empty space to add. Double-tap to remove.</p>' +
   '<div class="curve-wrap">' +
     '<div class="curve-canvas" id="curveCanvas">' +
@@ -1525,7 +1676,8 @@ function panelCurves(){
       '</svg>' +
     '</div>' +
     '<div class="curve-channels">' + chTabs + '</div>' +
-  '</div>';
+  '</div>' +
+  '<button class="btn tonal full" data-act="resetCurves">Reset</button>';
 }
 
 let curveDrag = null;
@@ -1627,8 +1779,7 @@ function panelText(){
   let presetChips = '';
   for(let i = 0; i < TEXT_PRESETS.length; i++) presetChips += '<button class="chip" data-textpreset="' + i + '">' + TEXT_PRESETS[i].name + '</button>';
   if(!o){
-    return '<div class="head"><h3>Text</h3><span class="head-sub">' + FONTS.length + ' fonts</span></div>' +
-      '<button class="btn filled full" data-act="addText">' + svg('plus') + ' Add Text Layer</button>' +
+    return '<button class="btn primary full" data-act="addText">' + svg('plus') + ' Add Text Layer</button>' +
       '<div class="label">Premium Styles</div><div class="chips">' + presetChips + '</div>' +
       '<p class="hint">Chrome, Metallic, Emboss, Glow, Gradient, Reflective.</p>';
   }
@@ -1652,14 +1803,9 @@ function panelText(){
   }
   const rotation = Math.round(o.rotation || 0);
   const showColor2 = o.effect === 'Gradient';
-  return '<div class="head"><h3>Text Layer</h3>' +
-    '<div style="display:flex;gap:.25rem">' +
-      '<button class="icon-btn" data-act="dupOverlay">' + svg('copy') + '</button>' +
-      '<button class="icon-btn" data-act="delOverlay">' + svg('trash') + '</button>' +
-    '</div></div>' +
-  '<div class="field"><label>Content</label><textarea data-prop="text">' + escapeHtml(o.text) + '</textarea></div>' +
+  return '<div class="field"><label>Content</label><textarea data-prop="text">' + escapeHtml(o.text) + '</textarea></div>' +
   '<div class="label">Presets</div><div class="chips">' + presetChips + '</div>' +
-  '<div class="label">Font (' + FONTS.length + ')</div><div class="font-preview">' + fontChips + '</div>' +
+  '<div class="label">Font</div><div class="font-preview">' + fontChips + '</div>' +
   '<div class="label">Effect</div><div class="chips">' + effectChips + '</div>' +
   '<div class="label">Align</div><div class="chips">' + alignChips + '</div>' +
   '<div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">' +
@@ -1670,20 +1816,11 @@ function panelText(){
   '<div class="field"><label>Shadow</label><input type="color" data-prop="shadow" value="' + (o.shadow || '#000000') + '"></div>' +
   '<div class="field"><div class="field-row"><label>Size</label><output data-out="t-size">' + Math.round(o.size*1000)/10 + '</output></div>' +
     '<input type="range" data-prop-range="size" min="2" max="40" step="0.5" value="' + (o.size*100) + '" style="--p:' + ((o.size*100-2)/(40-2)*100) + '%"></div>' +
-  '<div class="field"><div class="field-row"><label>Letter Spacing</label><output data-out="t-spacing">' + (o.spacing||0) + '</output></div>' +
+  '<div class="field"><div class="field-row"><label>Spacing</label><output data-out="t-spacing">' + (o.spacing||0) + '</output></div>' +
     '<input type="range" data-prop-range="spacing" min="-10" max="30" step="1" value="' + (o.spacing||0) + '" style="--p:' + (((o.spacing||0)+10)/40*100) + '%"></div>' +
-  '<div class="field"><div class="field-row"><label>Line Height</label><output data-out="t-lh">' + (o.lineHeight||1.16).toFixed(2) + '</output></div>' +
-    '<input type="range" data-prop-range="lineHeight" data-scale="0.01" min="80" max="250" step="1" value="' + Math.round((o.lineHeight||1.16)*100) + '" style="--p:' + ((Math.round((o.lineHeight||1.16)*100)-80)/170*100) + '%"></div>' +
   '<div class="field"><div class="field-row"><label>Stroke Width</label><output data-out="t-stroke">' + (o.strokeWidth||0) + '</output></div>' +
     '<input type="range" data-prop-range="strokeWidth" min="0" max="20" step="0.5" value="' + (o.strokeWidth||0) + '" style="--p:' + ((o.strokeWidth||0)/20*100) + '%"></div>' +
-  '<div class="label">Rotation</div>' +
-  '<div class="grid-4">' +
-    '<button class="tile" data-act="rotCCW">' + svg('rotate') + '<span>-15</span></button>' +
-    '<button class="tile" data-act="rotCW">' + svg('rotateCw') + '<span>+15</span></button>' +
-    '<button class="tile" data-act="rot90">' + svg('rotateCw') + '<span>90</span></button>' +
-    '<button class="tile" data-act="rotReset">' + svg('reset') + '<span>Reset</span></button>' +
-  '</div>' +
-  '<div class="field"><div class="field-row"><label>Fine Rotate</label><output data-out="t-rot">' + rotation + ' deg</output></div>' +
+  '<div class="field"><div class="field-row"><label>Rotation</label><output data-out="t-rot">' + rotation + ' deg</output></div>' +
     '<input type="range" data-prop-range="rotation" data-suffix=" deg" min="-180" max="180" step="1" value="' + rotation + '" style="--p:' + ((rotation+180)/360*100) + '%"></div>' +
   '<div class="field"><div class="field-row"><label>Opacity</label><output data-out="t-opacity">' + Math.round((o.opacity===undefined?1:o.opacity)*100) + '%</output></div>' +
     '<input type="range" data-prop-range="opacity" data-scale="0.01" data-suffix="%" min="5" max="100" step="1" value="' + Math.round((o.opacity===undefined?1:o.opacity)*100) + '" style="--p:' + (Math.round((o.opacity===undefined?1:o.opacity)*100)-5)/95*100 + '%"></div>' +
@@ -1693,6 +1830,10 @@ function panelText(){
     '<button class="chip' + (o.italic?' active':'') + '" data-toggle="italic">Italic</button>' +
     '<button class="chip' + (o.uppercase?' active':'') + '" data-toggle="uppercase">UPPER</button>' +
     '<button class="chip' + (o.lowercase?' active':'') + '" data-toggle="lowercase">lower</button>' +
+  '</div>' +
+  '<div style="display:flex;gap:.4rem;margin-top:.4rem">' +
+    '<button class="btn tonal" style="flex:1" data-act="dupOverlay">Duplicate</button>' +
+    '<button class="btn tonal" style="flex:1" data-act="delOverlay">Delete</button>' +
   '</div>';
 }
 function panelGraphics(){
@@ -1703,16 +1844,11 @@ function panelGraphics(){
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="' + g[1] + '"/></svg></button>';
   }
   const o = (state.selected >= 0 && state.layers[state.selected] && state.layers[state.selected].type === 'graphic') ? state.layers[state.selected] : null;
-  let html = '<div class="head"><h3>Graphics</h3><span class="head-sub">' + GRAPHICS.length + '</span></div>' +
+  let html = '<p class="hint">Tap a shape to add as a new layer.</p>' +
     '<div class="graphics-grid">' + grid + '</div>';
   if(o){
     const rotation = Math.round(o.rotation || 0);
     html += '<hr class="divider">' +
-    '<div class="head"><h3>Selected</h3>' +
-      '<div style="display:flex;gap:.25rem">' +
-        '<button class="icon-btn" data-act="dupOverlay">' + svg('copy') + '</button>' +
-        '<button class="icon-btn" data-act="delOverlay">' + svg('trash') + '</button>' +
-      '</div></div>' +
     '<div class="field"><label>Color</label><input type="color" data-prop="color" value="' + (o.color||'#fff') + '"></div>' +
     '<label class="switch"><input type="checkbox" data-prop-check="fill"' + (o.fill?' checked':'') + '><span>Fill shape</span></label>' +
     '<div class="field"><div class="field-row"><label>Size</label><output data-out="s-size">' + Math.round(o.size*100) + '</output></div>' +
@@ -1722,7 +1858,11 @@ function panelGraphics(){
     '<div class="field"><div class="field-row"><label>Rotation</label><output data-out="s-rot">' + rotation + ' deg</output></div>' +
       '<input type="range" data-prop-range="rotation" data-suffix=" deg" min="-180" max="180" step="1" value="' + rotation + '" style="--p:' + ((rotation+180)/360*100) + '%"></div>' +
     '<div class="field"><div class="field-row"><label>Opacity</label><output data-out="s-opacity">' + Math.round((o.opacity===undefined?1:o.opacity)*100) + '%</output></div>' +
-      '<input type="range" data-prop-range="opacity" data-scale="0.01" data-suffix="%" min="5" max="100" step="1" value="' + Math.round((o.opacity===undefined?1:o.opacity)*100) + '" style="--p:' + (Math.round((o.opacity===undefined?1:o.opacity)*100)-5)/95*100 + '%"></div>';
+      '<input type="range" data-prop-range="opacity" data-scale="0.01" data-suffix="%" min="5" max="100" step="1" value="' + Math.round((o.opacity===undefined?1:o.opacity)*100) + '" style="--p:' + (Math.round((o.opacity===undefined?1:o.opacity)*100)-5)/95*100 + '%"></div>' +
+    '<div style="display:flex;gap:.4rem;margin-top:.4rem">' +
+      '<button class="btn tonal" style="flex:1" data-act="dupOverlay">Duplicate</button>' +
+      '<button class="btn tonal" style="flex:1" data-act="delOverlay">Delete</button>' +
+    '</div>';
   }
   return html;
 }
@@ -1737,14 +1877,12 @@ function panelBrush(){
   const currentMode = BRUSH_MODES.find(m => m.id === b.mode) || BRUSH_MODES[0];
   const previewColor = b.mode === 'erase' ? '#ff5577' : (b.mode === 'highlight' ? '#fff8a0' : (b.mode === 'shadow' ? '#202020' : b.color));
   const previewSize = Math.min(56, Math.max(8, b.size * 0.6));
-  return '' +
-  '<div class="head"><h3>Brush</h3>' +
-    '<button class="brush-toggle' + (b.active ? ' active' : '') + '" data-act="toggleBrush" title="Toggle Brush">' +
-      svg('brush', 2) +
-      '<span>' + (b.active ? 'ON' : 'OFF') + '</span>' +
-    '</button>' +
-  '</div>' +
-  '<p class="hint">' + currentMode.hint + (b.active ? '' : ' Turn ON to enable drawing. When OFF, layers stay movable.') + '</p>' +
+  return '<div style="display:flex;justify-content:flex-end">' +
+      '<button class="brush-toggle' + (b.active ? ' active' : '') + '" data-act="toggleBrush">' +
+        svg('brush', 2) + '<span>' + (b.active ? 'ON' : 'OFF') + '</span>' +
+      '</button>' +
+    '</div>' +
+  '<p class="hint">' + currentMode.hint + (b.active ? ' Circle cursor follow করবে।' : ' Turn ON to enable drawing.') + '</p>' +
   '<div class="label">Mode</div>' +
   '<div class="brush-modes">' + modeBtns + '</div>' +
   '<div class="brush-preview">' +
@@ -1757,7 +1895,7 @@ function panelBrush(){
     '<input type="range" data-brush-range="size" min="4" max="200" step="1" value="' + b.size + '" style="--p:' + ((b.size-4)/196*100) + '%"></div>' +
   '<div class="field"><div class="field-row"><label>Opacity</label><output data-out="brush-opacity">' + Math.round(b.opacity*100) + '%</output></div>' +
     '<input type="range" data-brush-range="opacity" data-scale="0.01" data-suffix="%" min="5" max="100" step="1" value="' + Math.round(b.opacity*100) + '" style="--p:' + ((b.opacity*100-5)/95*100) + '%"></div>' +
-  '<button class="btn tonal full" data-act="clearBrush">' + svg('trash') + ' Clear Brush</button>' +
+  '<button class="btn tonal full" data-act="clearBrush">' + svg('trash') + ' Clear Brush Strokes</button>' +
   '<div class="label">Quick Colors</div>' +
   '<div class="swatch-row">' +
     ['#ffffff','#000000','#ff4d5a','#ffcb3e','#5ee7a0','#54d6ff','#ff6bd6','#c8d0dd','#ff8a5c','#a3e635'].map(c =>
@@ -1767,11 +1905,10 @@ function panelBrush(){
 }
 function panelImages(){
   const o = (state.selected >= 0 && state.layers[state.selected] && (state.layers[state.selected].type === 'image' || state.layers[state.selected].type === 'background')) ? state.layers[state.selected] : null;
-  let html = '<div class="head"><h3>Images</h3></div>' +
-    '<button class="upload-hero" data-act="open">' +
+  let html = '<button class="upload-hero" data-act="open">' +
       '<div class="upload-hero-icon">' + svg('plus') + '</div>' +
       '<div class="upload-hero-title">Add Image</div>' +
-      '<div class="upload-hero-desc">PNG, JPG or any format. Added as a new layer above the base image.</div>' +
+      '<div class="upload-hero-desc">PNG, JPG — added as a new layer.</div>' +
     '</button>';
 
   if(o){
@@ -1783,12 +1920,7 @@ function panelImages(){
       blendBtns += '<button class="blend-btn' + active + '" data-blend="' + b[0] + '">' + b[1] + '</button>';
     }
     html += '<hr class="divider">' +
-    '<div class="head"><h3>Selected Image</h3>' +
-      '<div style="display:flex;gap:.25rem">' +
-        '<button class="icon-btn" data-act="dupOverlay">' + svg('copy') + '</button>' +
-        '<button class="icon-btn" data-act="delOverlay">' + svg('trash') + '</button>' +
-      '</div></div>' +
-    '<p class="hint">Tip: drag any corner handle on the canvas to resize this layer. Or use the slider below.</p>' +
+    '<p class="hint">Tip: drag corner handles on canvas to resize.</p>' +
     '<div class="field"><div class="field-row"><label>Size</label><output data-out="s-size">' + Math.round(o.size*100) + '</output></div>' +
       '<input type="range" data-prop-range="size" min="3" max="400" step="1" value="' + Math.round(o.size*100) + '" style="--p:' + ((o.size*100-3)/(400-3)*100) + '%"></div>' +
     '<div class="field"><div class="field-row"><label>Opacity</label><output data-out="s-opacity">' + Math.round((o.opacity===undefined?1:o.opacity)*100) + '%</output></div>' +
@@ -1797,9 +1929,10 @@ function panelImages(){
       '<input type="range" data-prop-range="rotation" data-suffix=" deg" min="-180" max="180" step="1" value="' + rotation + '" style="--p:' + ((rotation+180)/360*100) + '%"></div>' +
     '<div class="label">Blend Mode</div>' +
     '<div class="blend-grid">' + blendBtns + '</div>' +
-    '<p class="hint">To change brightness/colors, tap ⚙️ in the Layers tab.</p>';
-  } else {
-    html += '<p class="hint">Select an image layer from Layers tab to see size and blend options. Or upload a new image above.</p>';
+    '<div style="display:flex;gap:.4rem;margin-top:.4rem">' +
+      '<button class="btn tonal" style="flex:1" data-act="dupOverlay">Duplicate</button>' +
+      '<button class="btn tonal" style="flex:1" data-act="delOverlay">Delete</button>' +
+    '</div>';
   }
   return html;
 }
@@ -1811,8 +1944,7 @@ function panelBg(){
     const m = modes[i];
     modeChips += '<button class="chip' + (bg.type === m[0] ? ' active' : '') + '" data-bgmode="' + m[0] + '">' + m[1] + '</button>';
   }
-  let html = '<div class="head"><h3>Background</h3></div>' +
-    '<p class="hint">Applies to the canvas behind all layers.</p>' +
+  let html = '<p class="hint">Applies to the canvas behind all layers.</p>' +
     '<div class="chips">' + modeChips + '</div>';
   if(bg.type === 'solid'){
     let sw = '';
@@ -1839,9 +1971,7 @@ function panelCrop(){
     const a = ASPECTS[i];
     chips += '<button class="chip' + (state.crop.aspect === a[0] ? ' active' : '') + '" data-aspect="' + a[0] + '">' + a[1] + '</button>';
   }
-  return '<div class="head"><h3>Crop & Transform</h3>' +
-    '<button class="chip" data-act="resetCrop">Reset</button></div>' +
-    '<p class="hint">Drag inside the crop rectangle to move. Drag corners to resize. Drag outside to draw a new crop. Apply crops the whole canvas.</p>' +
+  return '<p class="hint">Drag inside rectangle to move. Corner to resize. Outside to draw a new crop.</p>' +
     '<div class="label">Aspect</div><div class="chips">' + chips + '</div>' +
     '<div class="label">Transform</div>' +
     '<div class="grid-3">' +
@@ -1849,7 +1979,10 @@ function panelCrop(){
       '<button class="tile" data-act="flipH">' + svg('flipH') + '<span>Flip H</span></button>' +
       '<button class="tile" data-act="flipV">' + svg('flipV') + '<span>Flip V</span></button>' +
     '</div>' +
-    '<button class="btn filled full" data-act="applyCrop" style="margin-top:.6rem">' + svg('check') + 'Apply Crop</button>';
+    '<div style="display:flex;gap:.4rem;margin-top:.5rem">' +
+      '<button class="btn tonal" style="flex:1" data-act="resetCrop">Reset</button>' +
+      '<button class="btn primary" style="flex:2" data-act="applyCrop">' + svg('check') + ' Apply Crop</button>' +
+    '</div>';
 }
 
 function isImageFile(file){
@@ -1857,13 +1990,6 @@ function isImageFile(file){
   if(file.type && file.type.indexOf('image') === 0) return true;
   const n = (file.name || '').toLowerCase();
   return /\.(png|jpe?g|jpe|gif|webp|bmp|avif|heic|heif|svg|tiff?)$/.test(n);
-}
-function openPanel(){
-  state.panelVisible = true;
-  panelEl.classList.remove('collapsed');
-  panelToggle.disabled = false;
-  const ic = panelToggle.querySelector('svg');
-  if(ic) ic.innerHTML = '<path d="M6 15l6-6 6 6"/>';
 }
 
 function handleImageUpload(file){
@@ -1888,13 +2014,14 @@ function handleImageUpload(file){
       state.curves = Object.assign({ active:'rgb' }, defaultCurves());
       state.baseVisible = true;
       state.baseLocked = false;
+      state.brush.currentLayerId = null;
       URL.revokeObjectURL(url);
-      openPanel();
+      updateAppState();
       exportBtn.disabled = false;
       updateUndoRedo();
       baseDirty = true;
       renderTabs(); renderPanel(); render();
-      setTimeout(fitView, 40);
+      setTimeout(fitView, 60);
     } else {
       pushHistory();
       const o = {
@@ -1914,10 +2041,9 @@ function handleImageUpload(file){
       };
       state.layers.push(o);
       state.selected = state.layers.length - 1;
-      state.tab = 'layers';
-      openPanel();
+      openToolPanel('layers');
       baseDirty = true;
-      renderTabs(); renderPanel(); render();
+      render(); renderPanel();
     }
   };
   img.onerror = function(){ URL.revokeObjectURL(url); };
@@ -1940,16 +2066,6 @@ function pointerToCanvas(e){
 function pointerToNorm(e){
   const r = canvas.getBoundingClientRect();
   return { x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height };
-}
-function hitLayer(p, W, H){
-  const pad = cssToCanvasPx(22);
-  for(let i = state.layers.length - 1; i >= 0; i--){
-    const o = state.layers[i];
-    if(!o.visible || o.locked) continue;
-    const b = layerBounds(o, W, H);
-    if(p.x >= b.x - pad && p.x <= b.x + b.w + pad && p.y >= b.y - pad && p.y <= b.y + b.h + pad) return i;
-  }
-  return -1;
 }
 function isOnRotateHandle(p, o, W, H){
   const b = layerBounds(o, W, H);
@@ -1998,16 +2114,16 @@ function onPointerMove(e){
     const layer = drag.target;
     if(!layer) return;
     const n = pointerToNorm(e);
+    state.brush.pointer = p;
     if(drag.isMask){
       const stroke = layer.maskStrokes[layer.maskStrokes.length - 1];
       stroke.pts.push({ x: n.x, y: n.y });
       baseDirty = true;
-      requestRender();
     } else {
       const stroke = layer.strokes[layer.strokes.length - 1];
       stroke.pts.push({ x: n.x, y: n.y });
-      requestRender();
     }
+    requestRender();
     return;
   }
   if(drag.type === 'resize'){
@@ -2098,9 +2214,30 @@ function updateSizePanelOutput(o){
 function onPointerUp(e){
   if(activePointerId !== null && e.pointerId !== activePointerId) return;
   drag = null; activePointerId = null;
-  canvas.style.cursor = 'crosshair';
+  toolPanelEl.classList.remove('peeking');
   requestRender();
 }
+
+canvas.addEventListener('pointermove', function(e){
+  if(!state.image) return;
+  if(state.brush.active){
+    state.brush.pointer = pointerToCanvas(e);
+    if(!drag) requestRender();
+  }
+});
+canvas.addEventListener('pointerleave', function(){
+  if(state.brush.pointer){
+    state.brush.pointer = null;
+    requestRender();
+  }
+});
+canvas.addEventListener('pointerenter', function(e){
+  if(state.image && state.brush.active){
+    state.brush.pointer = pointerToCanvas(e);
+    requestRender();
+  }
+});
+
 canvas.addEventListener('pointerdown', function(e){
   if(!state.image) return;
   if(activePointerId !== null) return;
@@ -2113,6 +2250,9 @@ canvas.addEventListener('pointerdown', function(e){
   canvas.addEventListener('pointerup', onPointerUp);
   canvas.addEventListener('pointercancel', onPointerUp);
 
+  /* Peek: hide tool panel while finger/pen is down on canvas */
+  if(state.panelOpen) toolPanelEl.classList.add('peeking');
+
   if(state.view.spacePressed && !state.view.locked){
     drag = { type:'pan', sx:e.clientX, sy:e.clientY, vx:state.view.x, vy:state.view.y };
     canvas.style.cursor = 'grabbing';
@@ -2124,6 +2264,7 @@ canvas.addEventListener('pointerdown', function(e){
   }
 
   if(state.brush.active){
+    state.brush.pointer = p;
     const mode = BRUSH_MODES.find(m => m.id === state.brush.mode) || BRUSH_MODES[0];
     if(mode.id === 'erase'){
       let idx = state.selected;
@@ -2148,14 +2289,25 @@ canvas.addEventListener('pointerdown', function(e){
     if(mode.id === 'highlight'){ blendMode = 'screen'; color = '#fff8a0'; }
     else if(mode.id === 'shadow'){ blendMode = 'multiply'; color = '#202020'; }
     else if(mode.id === 'soften'){ blendMode = 'soft-light'; color = '#c8d0dd'; }
-    const o = {
-      id: nextId(), name: mode.label, type:'paint',
-      x:0, y:0, rotation:0, opacity:1, visible:true, locked:false, blend:'normal',
-      strokes: [{ color: color, size: state.brush.size / 500, opacity: state.brush.opacity, blend: blendMode, pts:[{x:n.x, y:n.y}] }]
-    };
-    state.layers.push(o);
-    state.selected = state.layers.length - 1;
-    drag = { type:'brush', target: o, isMask: false };
+    
+    /* Reuse single brush layer within a session.
+       IMPORTANT: layer positioned at center (0.5, 0.5) so stroke points map correctly. */
+    let target = null;
+    if(state.brush.currentLayerId){
+      target = state.layers.find(l => l.id === state.brush.currentLayerId && l.type === 'paint');
+    }
+    if(!target){
+      target = {
+        id: nextId(), name: 'Brush', type:'paint',
+        x: 0.5, y: 0.5, rotation:0, opacity:1, visible:true, locked:false, blend:'normal',
+        strokes: []
+      };
+      state.layers.push(target);
+      state.brush.currentLayerId = target.id;
+      state.selected = state.layers.indexOf(target);
+    }
+    target.strokes.push({ color: color, size: state.brush.size / 500, opacity: state.brush.opacity, blend: blendMode, pts:[{x:n.x, y:n.y}] });
+    drag = { type:'brush', target: target, isMask: false };
     requestRender(); return;
   }
 
@@ -2187,19 +2339,31 @@ canvas.addEventListener('pointerdown', function(e){
   requestRender();
 });
 
+panelToggle.addEventListener('click', function(e){ e.preventDefault(); toggleSidebar(); });
+sidebarCloseBtn.addEventListener('click', function(e){ e.preventDefault(); closeSidebar(); });
+sidebarBackdrop.addEventListener('click', function(e){ e.preventDefault(); closeSidebar(); });
+toolPanelClose.addEventListener('click', function(e){ e.preventDefault(); closeToolPanel(); });
+toolPanelMin.addEventListener('click', function(e){ e.preventDefault(); toggleMinimizePanel(); });
+
+mainEl.addEventListener('transitionend', function(e){
+  if(e.propertyName === 'margin-left' || e.propertyName === 'transform'){
+    requestRender();
+  }
+});
+
 document.addEventListener('click', function(e){
   const tabBtn = e.target.closest('[data-tab]');
   if(tabBtn){
-    state.tab = tabBtn.dataset.tab;
-    if(state.tab === 'crop' && state.image && !state.crop.active){
-      state.crop.active = true;
-      const pad = 0.1;
-      state.crop.x = canvas.width * pad;
-      state.crop.y = canvas.height * pad;
-      state.crop.w = canvas.width * (1 - pad * 2);
-      state.crop.h = canvas.height * (1 - pad * 2);
+    const newTab = tabBtn.dataset.tab;
+    if(window.matchMedia && window.matchMedia('(max-width: 63.99rem)').matches){
+      closeSidebar();
     }
-    renderTabs(); renderPanel(); requestRender(); return;
+    if(state.panelOpen && state.tab === newTab && !toolPanelEl.classList.contains('minimized')){
+      closeToolPanel();
+    } else {
+      openToolPanel(newTab);
+    }
+    return;
   }
 
   const presetBtn = e.target.closest('[data-preset]');
@@ -2207,13 +2371,8 @@ document.addEventListener('click', function(e){
     const p = presetBtn.dataset.preset;
     const t = currentAdjustTarget();
     pushHistory();
-    if(t.kind === 'layer'){
-      t.obj.preset = p;
-      baseDirty = true;
-    } else {
-      state.preset = p;
-      invalidateBase();
-    }
+    if(t.kind === 'layer'){ t.obj.preset = p; baseDirty = true; }
+    else { state.preset = p; invalidateBase(); }
     renderPanel(); render();
     return;
   }
@@ -2307,40 +2466,21 @@ document.addEventListener('click', function(e){
   if(brushModeBtn){ state.brush.mode = brushModeBtn.dataset.brushmode; renderPanel(); return; }
 
   const bvBtn = e.target.closest('[data-basevis]');
-  if(bvBtn){
-    pushHistory();
-    state.baseVisible = !state.baseVisible;
-    invalidateBase(); renderPanel(); render();
-    return;
-  }
+  if(bvBtn){ pushHistory(); state.baseVisible = !state.baseVisible; invalidateBase(); renderPanel(); render(); return; }
   const blkBtn = e.target.closest('[data-baselock]');
-  if(blkBtn){
-    pushHistory();
-    state.baseLocked = !state.baseLocked;
-    renderPanel(); render();
-    return;
-  }
+  if(blkBtn){ pushHistory(); state.baseLocked = !state.baseLocked; renderPanel(); render(); return; }
   const blaBtn = e.target.closest('[data-baselayeradjust]');
-  if(blaBtn){
-    state.selected = -1;
-    state.tab = 'adjust';
-    renderTabs(); renderPanel(); render();
-    return;
-  }
+  if(blaBtn){ state.selected = -1; openToolPanel('adjust'); render(); return; }
   const blBtn = e.target.closest('[data-baselayer]');
-  if(blBtn){
-    state.selected = -1;
-    renderPanel(); render();
-    return;
-  }
+  if(blBtn){ state.selected = -1; renderPanel(); render(); return; }
 
   const laBtn = e.target.closest('[data-layeradjust]');
   if(laBtn){
     const i = parseInt(laBtn.dataset.layeradjust,10);
     if(state.layers[i]){
       state.selected = i;
-      state.tab = 'adjust';
-      renderTabs(); renderPanel(); render();
+      openToolPanel('adjust');
+      render();
     }
     return;
   }
@@ -2377,11 +2517,6 @@ document.addEventListener('click', function(e){
     case 'export': exportImage(); break;
     case 'undo': undo(); break;
     case 'redo': redo(); break;
-    case 'togglePanel':
-      state.panelVisible = !state.panelVisible;
-      if(state.panelVisible){ panelEl.classList.remove('collapsed'); panelToggle.querySelector('svg').innerHTML = '<path d="M6 15l6-6 6 6"/>'; }
-      else { panelEl.classList.add('collapsed'); panelToggle.querySelector('svg').innerHTML = '<path d="M6 9l6 6 6-6"/>'; }
-      requestRender(); break;
     case 'resetPreset': {
       const t = currentAdjustTarget();
       pushHistory();
@@ -2438,7 +2573,10 @@ document.addEventListener('click', function(e){
     case 'flatten': flattenVisible(); break;
     case 'toggleBrush':
       state.brush.active = !state.brush.active;
-      canvas.style.cursor = 'crosshair';
+      if(!state.brush.active){
+        state.brush.currentLayerId = null;
+        state.brush.pointer = null;
+      }
       syncBrushUI();
       renderPanel(); requestRender(); break;
     case 'clearBrush': {
@@ -2458,6 +2596,7 @@ document.addEventListener('click', function(e){
         }
       }
       state.selected = -1;
+      state.brush.currentLayerId = null;
       baseDirty = true;
       renderPanel(); render();
       break;
@@ -2465,15 +2604,18 @@ document.addEventListener('click', function(e){
   }
 });
 
-/* Brush indicator on stage-bar */
 if(brushIndicator){
   brushIndicator.addEventListener('click', function(e){
     e.preventDefault();
     e.stopPropagation();
     pushHistory();
     state.brush.active = !state.brush.active;
+    if(!state.brush.active){
+      state.brush.currentLayerId = null;
+      state.brush.pointer = null;
+    }
     syncBrushUI();
-    if(state.tab === 'brush') renderPanel();
+    if(state.panelOpen && state.tab === 'brush') renderPanel();
     requestRender();
   });
 }
@@ -2601,6 +2743,7 @@ panelBodyEl.addEventListener('input', function(e){
     if(out) out.textContent = key === 'opacity' ? Math.round(v*100) + '%' : v;
     const min = parseFloat(el.min), max = parseFloat(el.max);
     el.style.setProperty('--p', ((parseFloat(el.value) - min) / (max - min) * 100) + '%');
+    if(state.brush.active) requestRender();
     return;
   }
   if(el.matches('[data-bgcolor]')){ state.bg.color = el.value; invalidateBase(); render(); return; }
@@ -2645,8 +2788,8 @@ function addTextFromPreset(preset){
   };
   state.layers.push(o);
   state.selected = state.layers.length - 1;
-  state.tab = 'text';
-  renderTabs(); renderPanel(); render();
+  openToolPanel('text');
+  render();
 }
 function addTextLayer(){
   if(!state.image) return;
@@ -2676,8 +2819,7 @@ function addGraphic(index){
   };
   state.layers.push(o);
   state.selected = state.layers.length - 1;
-  state.tab = 'graphics';
-  renderTabs(); renderPanel(); render();
+  renderPanel(); render();
 }
 function duplicateLayer(){
   const idx = state.selected;
@@ -2746,6 +2888,7 @@ function flattenVisible(){
     state.bg = { type:'none', color:'#111318', g:['#2b3040','#0e1015'] };
     state.curves = Object.assign({ active:'rgb' }, defaultCurves());
     state.baseVisible = true;
+    state.brush.currentLayerId = null;
     invalidateBase();
     renderPanel(); render();
   };
@@ -2783,9 +2926,7 @@ function applyCrop(){
   const c = state.crop;
   if(!state.image || !c.active || c.w < 4 || c.h < 4) return;
   pushHistory();
-
   render(true);
-
   const out = document.createElement('canvas');
   out.width = Math.max(1, Math.round(c.w));
   out.height = Math.max(1, Math.round(c.h));
@@ -2796,7 +2937,6 @@ function applyCrop(){
     0, 0,
     out.width, out.height
   );
-
   state.image = out;
   state.layers = [];
   state.selected = -1;
@@ -2805,6 +2945,7 @@ function applyCrop(){
   state.bg = { type:'none', color:'#111318', g:['#2b3040','#0e1015'] };
   state.curves = Object.assign({ active:'rgb' }, defaultCurves());
   state.baseVisible = true;
+  state.brush.currentLayerId = null;
   state.crop.active = false;
   baseDirty = true;
   renderPanel(); render();
@@ -2856,15 +2997,21 @@ document.addEventListener('keydown', function(e){
     redo();
   } else if(e.code === 'Space'){
     state.view.spacePressed = true;
+  } else if(e.key === 'Escape'){
+    if(isSidebarOpen()) closeSidebar();
+    else if(state.panelOpen) closeToolPanel();
   }
 });
 document.addEventListener('keyup', function(e){
   if(e.code === 'Space') state.view.spacePressed = false;
 });
 
+/* INIT */
 renderTabs();
 renderPanel();
 syncBrushUI();
+updateMenuIcon();
+updateAppState();
 
 if(document.fonts && document.fonts.load){
   const unique = Array.from(new Set(FONTS));
